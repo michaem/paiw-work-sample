@@ -266,8 +266,12 @@ For those live checks, hooks, plugins, apps, and discovered skills were disabled
 and an extra instruction restricted reads to the demo files. The project
 `AGENTS.md` was discovered normally. Global instruction text was still inherited:
 this was a scoped local check, not a fully clean account.
-The model was not pinned. Linux and Windows execution remain unverified until
-the CI matrix runs. Other coding agents have not been tested.
+The model was not pinned. Other coding agents have not been tested.
+
+The [first public CI run](https://github.com/michaem/paiw-work-sample/actions/runs/39485488590)
+passed the deterministic suite on Linux, macOS, and Windows with Python 3.13,
+and on Linux with Python 3.9. This verifies setup and exercise behavior on those
+platforms; it does not extend the live agent checks beyond macOS.
 
 ## License
 
