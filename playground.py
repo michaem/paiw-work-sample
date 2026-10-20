@@ -26,6 +26,8 @@ def create_demo(destination):
         raise ValueError("Git executable not found; install Git and try again.")
     if not TEMPLATES.is_dir():
         raise ValueError("Templates are missing; use a complete checkout of this repository.")
+    if TEMPLATES.resolve() in target.parents:
+        raise ValueError("Destination must not be inside templates; choose a separate directory.")
 
     # mkdir is exclusive: a destination created after the check is also rejected.
     target.mkdir()
@@ -76,7 +78,7 @@ def main():
         print("  {}".format(target / "projects" / project))
     print("Prompt: Review this project's Python code against its README. "
           "Report actionable defects. Do not modify files.")
-    print("Next: follow Round 1 and Round 2 in the PAIW Sample README.")
+    print("Next: follow Round 1 and Round 2 in the Pave Block Sample README.")
     return 0
 
 

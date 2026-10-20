@@ -2,6 +2,7 @@
 
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -32,7 +33,7 @@ class SetupTests(unittest.TestCase):
             repo = self.target / "projects" / project
             root = subprocess.run(
                 ["git", "-C", str(repo), "rev-parse", "--show-toplevel"],
-                capture_output=True, text=True, check=True,
+                capture_output=True, encoding="utf-8", check=True,
             )
             self.assertEqual(Path(root.stdout.strip()).resolve(), repo.resolve())
             for name in ("AGENTS.md", "README.md"):
@@ -119,6 +120,24 @@ class SetupTests(unittest.TestCase):
     def test_non_ascii_destination_works_with_limited_stdout_encoding(self):
         env = dict(os.environ, PYTHONIOENCODING="ascii")
         self.assert_created(self.run_setup(env))
+
+    def test_destination_inside_templates_is_rejected_before_writing(self):
+        source = self.parent / "source"
+        source.mkdir()
+        shutil.copyfile(SCRIPT, source / SCRIPT.name)
+        shutil.copytree(ROOT / "templates", source / "templates")
+        target = source / "templates/context/generated"
+        before = {p.relative_to(source): p.read_bytes()
+                  for p in source.rglob("*") if p.is_file()}
+        result = subprocess.run(
+            [sys.executable, "-B", str(source / SCRIPT.name), str(target)],
+            capture_output=True, text=True, check=False,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("inside templates", result.stderr)
+        self.assertFalse(target.exists())
+        self.assertEqual(before, {p.relative_to(source): p.read_bytes()
+                                  for p in source.rglob("*") if p.is_file()})
 
 
 if __name__ == "__main__":

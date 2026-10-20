@@ -1,4 +1,4 @@
-# PAIW Sample
+# Pave Block Sample
 
 [Русская версия](README.ru.md)
 
@@ -12,6 +12,35 @@ Allow about **15–20 minutes** with an already configured coding agent.
 All code and example context in this repository are newly written for this
 exercise. No company code, real profile, workspace manager, or internal service
 is required.
+
+This is a companion exercise for the
+[Personal AI Workspace talk at Mobius](https://mobiusconf.com/talks/20011596-personal-ai-workspace-how-to-share-skills-templates-and-agents-md-between-teams/).
+It demonstrates one PAIW building block: reusable context stored outside
+individual projects. The PAIW application, CLI, plugins, and search engine are
+not included.
+
+## Understand the repository first
+
+| Path | Purpose |
+| --- | --- |
+| `templates/context/` | Starting review rules and a fictional personal profile. |
+| `templates/projects/` | Two small Python projects with deliberate defects and context pointers. |
+| `playground.py` | Copies those starting files to a new folder and initializes two Git repositories. It does not call AI. |
+| `demo/` | An optional local result of running setup. It is ignored by Git and is not distributed. |
+| `tests/` | Checks setup and the exercise fixtures, without calling a model. |
+| `.github/workflows/` | Runs those tests in CI. |
+
+`templates` is the source of the exercise. The generated folder is where you
+perform it. Its name is your choice; this guide uses `context-demo`.
+After setup, edit the generated context, leaving the starting templates
+available for another run.
+
+To inspect the idea without running anything, read the
+[shared rule](templates/context/shared/review.md), the
+[fictional profile](templates/context/personal/profile.md), and one project's
+[AGENTS.md](templates/projects/reading-list/AGENTS.md).
+The `AGENTS.md` tells the agent to read the two context files using its tools.
+The Python setup script only creates the layout.
 
 ## What you will see
 
@@ -44,8 +73,8 @@ The walkthrough uses an authenticated Codex CLI. Model access is your own;
 this repository contains no keys and does not pay for model calls.
 
 ```sh
-git clone https://github.com/michaem/paiw-sample.git
-cd paiw-sample
+git clone https://github.com/michaem/pave-block-sample.git
+cd pave-block-sample
 python3 playground.py ../context-demo
 ```
 
@@ -59,6 +88,8 @@ If a run is interrupted, inspect its partial directory and use a new path.
 
 Keep the generated demo outside this checkout so the agent does not wander
 into the answer key. The generated profile is fictional.
+All commands below assume the terminal stays in the `pave-block-sample`
+checkout; `--cd` selects the agent's project without changing your terminal.
 
 ## 2. Round 1: review both projects
 
@@ -71,8 +102,11 @@ codex exec --ephemeral --sandbox read-only --cd ../context-demo/projects/reading
 codex exec --ephemeral --sandbox read-only --cd ../context-demo/projects/room-booking "Review this project's Python code against its README. Report actionable defects. Do not modify files."
 ```
 
-The same prompt works in a desktop coding agent: open **one generated project**
-as the workspace, start a new chat, and paste the quoted prompt.
+To try the same prompt in a desktop coding agent that supports `AGENTS.md`,
+open **one generated project** as the workspace, start a new chat, and paste
+the quoted prompt. Check the file reads; this desktop route has not been verified.
+The sample profile requests English reviews even when you follow this guide
+in another language. You can change that preference in the generated profile.
 
 Observe the tool activity, not just the final answer:
 
@@ -103,6 +137,17 @@ Both reports should now use `Review policy: v2` and include a concrete
 **User impact** field. Verify the new file read in both command traces.
 You have changed one source of context and reused it across two projects
 without carrying over either conversation.
+
+For example, a concise finding can change as follows. This is an illustration
+of the expected format, not a captured agent transcript:
+
+| Field | Round 1 | Round 2 |
+| --- | --- | --- |
+| Policy | `v1` | `v2` |
+| Location | `booking.py:5` | `booking.py:5` |
+| Failure | A booking from 16:00 to 18:00 is rejected although closing is at 18:00. | Same defect. |
+| Check | `can_book(16, 2, 18)` returns `False`; expected `True`. | Same reproducible check. |
+| User impact | Not requested. | Someone cannot reserve an otherwise available slot. |
 
 <details>
 <summary>Expected defects and reproducible checks (open after the review)</summary>
@@ -155,6 +200,26 @@ or recreate the same relative layout there, then launch a new session.
 Relative pointers survive that move. Ongoing synchronization and conflict
 resolution are up to your storage or version-control workflow.
 
+## Presenting it at Mobius
+
+Use this as the practical takeaway for the shared-context part of the talk.
+Python keeps the exercise small; understanding the two conditions is enough
+even if you normally work in Kotlin or Swift.
+
+For a short on-stage walkthrough:
+
+1. Prepare the demo and complete Round 1 in both projects before the talk.
+2. Show the two `AGENTS.md` pointers and the one shared `review.md`.
+3. Add **User impact** to that file and start a fresh review.
+4. Compare the result, then point attendees to the full two-project exercise.
+
+Budget about 3–5 minutes for the explanation; model response time adds
+uncertainty. Keep the real prior responses available in your agent or terminal
+in case the connection fails, and identify them as a previous run.
+The takeaway is one place to maintain context and a way to inspect its use.
+This exercise does not demonstrate team distribution, skill installation,
+or an entire personal AI workspace.
+
 ## If the result differs
 
 | Symptom | What to check |
@@ -178,20 +243,21 @@ python3 -B -m unittest discover -s tests -v
 ```
 
 Tests cover setup, existing-data protection, relocation, Git environment
-isolation, and the two known defects. They do not call a model.
+isolation, refusal to generate inside the source templates, and the two known
+defects. They do not call a model.
 Passing tests mean the exercise works **including its deliberate defects**;
 they do not certify the toy applications as correct.
 
 Keep both README translations aligned. Preserve the deliberate defects unless
 updating the complete exercise and its expected results.
-The GitHub Actions matrix runs the deterministic suite on Linux, macOS, and
-Windows. Live agent results require separate observation.
+The GitHub Actions workflow is configured to run the deterministic suite on
+Linux, macOS, and Windows. Live agent results require separate observation.
 
 ### Verification status
 
 Locally checked on macOS with Python 3.9.6 and Codex CLI 0.162.1:
 
-- All 11 deterministic tests pass.
+- All 12 deterministic tests pass.
 - Four fresh sessions read the shared policy and fictional profile.
 - Both projects use the three fields in Round 1 and add **User impact** in Round 2.
 - Both known defects are reproduced; exercise files remain unchanged by the agent.
