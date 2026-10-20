@@ -1,4 +1,4 @@
-# Wave Sample
+# PAIW Sample
 
 [English version](README.md)
 
@@ -43,8 +43,8 @@ context-demo/
 Доступ к модели ваш собственный. Ключей и оплаты обращений в репозитории нет.
 
 ```sh
-git clone https://github.com/michaem/wave-sample.git
-cd wave-sample
+git clone https://github.com/michaem/paiw-sample.git
+cd paiw-sample
 python3 playground.py ../context-demo
 ```
 

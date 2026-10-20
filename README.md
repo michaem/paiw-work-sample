@@ -1,4 +1,4 @@
-# Wave Sample
+# PAIW Sample
 
 [Русская версия](README.ru.md)
 
@@ -44,8 +44,8 @@ The walkthrough uses an authenticated Codex CLI. Model access is your own;
 this repository contains no keys and does not pay for model calls.
 
 ```sh
-git clone https://github.com/michaem/wave-sample.git
-cd wave-sample
+git clone https://github.com/michaem/paiw-sample.git
+cd paiw-sample
 python3 playground.py ../context-demo
 ```
 
