@@ -1,4 +1,4 @@
-# Pave Block Sample
+# PAIW Work Sample
 
 [English version](README.md)
 
@@ -72,8 +72,8 @@ context-demo/
 Доступ к модели ваш собственный. Ключей и оплаты обращений в репозитории нет.
 
 ```sh
-git clone https://github.com/michaem/pave-block-sample.git
-cd pave-block-sample
+git clone https://github.com/michaem/paiw-work-sample.git
+cd paiw-work-sample
 python3 playground.py ../context-demo
 ```
 
@@ -88,7 +88,7 @@ python3 playground.py ../context-demo
 Создавайте демо за пределами этого checkout, чтобы агент не читал ответы
 из руководства. Профиль в созданной папке полностью вымышленный.
 Все следующие команды предполагают, что терминал остаётся в checkout
-`pave-block-sample`: параметр `--cd` выбирает проект агента, не меняя папку терминала.
+`paiw-work-sample`: параметр `--cd` выбирает проект агента, не меняя папку терминала.
 
 ## 2. Первый раунд: ревью двух проектов
 

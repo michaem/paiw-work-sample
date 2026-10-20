@@ -1,4 +1,4 @@
-# Pave Block Sample
+# PAIW Work Sample
 
 [Русская версия](README.ru.md)
 
@@ -73,8 +73,8 @@ The walkthrough uses an authenticated Codex CLI. Model access is your own;
 this repository contains no keys and does not pay for model calls.
 
 ```sh
-git clone https://github.com/michaem/pave-block-sample.git
-cd pave-block-sample
+git clone https://github.com/michaem/paiw-work-sample.git
+cd paiw-work-sample
 python3 playground.py ../context-demo
 ```
 
@@ -88,7 +88,7 @@ If a run is interrupted, inspect its partial directory and use a new path.
 
 Keep the generated demo outside this checkout so the agent does not wander
 into the answer key. The generated profile is fictional.
-All commands below assume the terminal stays in the `pave-block-sample`
+All commands below assume the terminal stays in the `paiw-work-sample`
 checkout; `--cd` selects the agent's project without changing your terminal.
 
 ## 2. Round 1: review both projects

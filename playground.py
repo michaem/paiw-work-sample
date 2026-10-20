@@ -78,7 +78,7 @@ def main():
         print("  {}".format(target / "projects" / project))
     print("Prompt: Review this project's Python code against its README. "
           "Report actionable defects. Do not modify files.")
-    print("Next: follow Round 1 and Round 2 in the Pave Block Sample README.")
+    print("Next: follow Round 1 and Round 2 in the PAIW Work Sample README.")
     return 0
 
 
