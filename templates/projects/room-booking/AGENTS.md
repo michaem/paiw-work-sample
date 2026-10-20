@@ -11,5 +11,5 @@ If either file cannot be read, report the path and stop the review.
 
 Read this project's README.md for the code's contract.
 Limit this review to this repository and the two context files above.
-Do not inspect the sibling project or the playground's answer key.
+Do not inspect the sibling project or the sample's answer key.
 Keep all files unchanged during the review.

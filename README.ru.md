@@ -1,4 +1,4 @@
-# AI Context Playground
+# Wave Sample
 
 [English version](README.md)
 
@@ -43,8 +43,8 @@ context-demo/
 Доступ к модели ваш собственный. Ключей и оплаты обращений в репозитории нет.
 
 ```sh
-git clone https://github.com/michaem/ai-context-playground.git
-cd ai-context-playground
+git clone https://github.com/michaem/wave-sample.git
+cd wave-sample
 python3 playground.py ../context-demo
 ```
 
